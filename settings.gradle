@@ -1,1 +1,1 @@
-include ':privilegedtask-sample', ':privilegedtask'
+include ':privilegedtask-demo', ':privilegedtask'

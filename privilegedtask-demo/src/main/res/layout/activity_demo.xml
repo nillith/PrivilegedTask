@@ -9,15 +9,15 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="onSampleTask"
-        android:text="Sample Task"
+        android:onClick="onDemoTask"
+        android:text="Demo Task"
         android:textAllCaps="false" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="onSampleDialog"
+        android:onClick="onDemoDialog"
         android:textAllCaps="false"
-        android:text="Sample Dialog"
+        android:text="Demo Dialog"
         />
 </LinearLayout>

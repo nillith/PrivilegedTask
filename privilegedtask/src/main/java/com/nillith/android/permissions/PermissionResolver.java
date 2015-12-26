@@ -2,11 +2,14 @@ package com.nillith.android.permissions;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.DialogFragment;
 import android.app.Fragment;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +32,7 @@ public abstract class PermissionResolver implements IPermissionResolver {
         }
 
         @Override
-        public void initiate(TParam...params) {
+        public void initiate(TParam... params) {
             this.params = params;
             for (String permission : task.getRequiredPermissions()) {
                 if (!hasPermission(permission)) {
@@ -50,7 +53,7 @@ public abstract class PermissionResolver implements IPermissionResolver {
 
         }
 
-        private void onSessionComplete(){
+        private void onSessionComplete() {
             pendingPermissions.clear();
             deniedPermissions.clear();
             params = null;
@@ -72,14 +75,14 @@ public abstract class PermissionResolver implements IPermissionResolver {
 
         private void onRequestPermissionsResult(String[] permissions, int[] grantResults) {
             for (int i = 0; i < grantResults.length; i++) {
-                if (PackageManager.PERMISSION_GRANTED != grantResults[i]){
+                if (PackageManager.PERMISSION_GRANTED != grantResults[i]) {
                     deniedPermissions.add(permissions[i]);
                 }
             }
 
-            if (deniedPermissions.isEmpty()){
+            if (deniedPermissions.isEmpty()) {
                 onPermissionsAllowed();
-            }else {
+            } else {
                 onPermissionsDenied();
             }
 
@@ -88,7 +91,11 @@ public abstract class PermissionResolver implements IPermissionResolver {
 
     List<PermissionSession> sessions = new ArrayList<>();
 
-    abstract protected boolean hasPermission(String permission);
+    private boolean hasPermission(String permission) {
+        return PackageManager.PERMISSION_GRANTED == ContextCompat.checkSelfPermission(getContext(), permission);
+    }
+
+    abstract protected Context getContext();
 
     abstract protected boolean shouldShowRequestPermissionRationale(String permission);
 
@@ -96,32 +103,123 @@ public abstract class PermissionResolver implements IPermissionResolver {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        sessions.get(requestCode).onRequestPermissionsResult(permissions, grantResults);
+        if (requestCode > -1 && requestCode < sessions.size()) {
+            sessions.get(requestCode).onRequestPermissionsResult(permissions, grantResults);
+        }
     }
 
     @Override
-    public<TParam> IPermissionSession<TParam> createSession(IPrivilegedTask<TParam> privilegedTask) {
+    public <TParam> IPermissionSession<TParam> createSession(IPrivilegedTask<TParam> privilegedTask) {
         PermissionSession result = new PermissionSession(privilegedTask, sessions.size());
         sessions.add(result);
         return result;
     }
 
-    public static IPermissionResolver create(final Activity activity){
+    public static IPermissionResolver create(final Activity activity) {
         return new PermissionResolver() {
+
+
             @Override
-            protected boolean hasPermission(String permission) {
-                return PackageManager.PERMISSION_GRANTED == ContextCompat.checkSelfPermission(activity, permission);
+            protected Context getContext() {
+                return activity;
             }
 
             @Override
             protected boolean shouldShowRequestPermissionRationale(String permission) {
-               return ActivityCompat.shouldShowRequestPermissionRationale(activity,permission);
+                return ActivityCompat.shouldShowRequestPermissionRationale(activity, permission);
             }
 
             @Override
             protected void requestPermissions(String[] permissions, int requestCode) {
-                ActivityCompat.requestPermissions(activity,permissions,requestCode);
+                ActivityCompat.requestPermissions(activity, permissions, requestCode);
             }
         };
     }
+
+    @TargetApi(Build.VERSION_CODES.M)
+    public static IPermissionResolver create(final Fragment fragment) {
+        return new PermissionResolver() {
+
+
+            @Override
+            protected Context getContext() {
+                return fragment.getContext();
+            }
+
+            @Override
+            protected boolean shouldShowRequestPermissionRationale(String permission) {
+                return fragment.shouldShowRequestPermissionRationale(permission);
+            }
+
+            @Override
+            protected void requestPermissions(String[] permissions, int requestCode) {
+                fragment.requestPermissions(permissions, requestCode);
+            }
+        };
+    }
+
+    public static IPermissionResolver create(final android.support.v4.app.Fragment fragment) {
+        return new PermissionResolver() {
+
+
+            @Override
+            protected Context getContext() {
+                return fragment.getContext();
+            }
+
+            @Override
+            protected boolean shouldShowRequestPermissionRationale(String permission) {
+                return fragment.shouldShowRequestPermissionRationale(permission);
+            }
+
+            @Override
+            protected void requestPermissions(String[] permissions, int requestCode) {
+                fragment.requestPermissions(permissions, requestCode);
+            }
+        };
+    }
+
+    @TargetApi(Build.VERSION_CODES.M)
+    public static IPermissionResolver create(final DialogFragment dialogFragment) {
+        return new PermissionResolver() {
+
+
+            @Override
+            protected Context getContext() {
+                return dialogFragment.getContext();
+            }
+
+            @Override
+            protected boolean shouldShowRequestPermissionRationale(String permission) {
+                return dialogFragment.shouldShowRequestPermissionRationale(permission);
+            }
+
+            @Override
+            protected void requestPermissions(String[] permissions, int requestCode) {
+                dialogFragment.requestPermissions(permissions, requestCode);
+            }
+        };
+    }
+
+    public static IPermissionResolver create(final android.support.v4.app.DialogFragment dialogFragment) {
+        return new PermissionResolver() {
+
+
+            @Override
+            protected Context getContext() {
+                return dialogFragment.getContext();
+            }
+
+            @Override
+            protected boolean shouldShowRequestPermissionRationale(String permission) {
+                return dialogFragment.shouldShowRequestPermissionRationale(permission);
+            }
+
+            @Override
+            protected void requestPermissions(String[] permissions, int requestCode) {
+                dialogFragment.requestPermissions(permissions, requestCode);
+            }
+        };
+    }
+
 }

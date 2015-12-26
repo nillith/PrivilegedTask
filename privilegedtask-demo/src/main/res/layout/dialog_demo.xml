@@ -8,6 +8,6 @@
         android:id="@+id/btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sample Task"
+        android:text="Demo Task"
         android:textAllCaps="false" />
 </LinearLayout>

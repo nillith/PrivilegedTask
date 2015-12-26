@@ -27,19 +27,19 @@ public class DemoTask extends PrivilegedTask<String> {
     @RequiresPermission(allOf = {Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE, })
     public void onPermissionsAllowed(String...params) {
-        Log.d(TAG, "onPermissionsAllowed " + arrayToString(params));
+        Log.d(TAG, hashCode()+ ":onPermissionsAllowed " + arrayToString(params));
     }
 
     @Override
     public void onShowRationale(String permission) {
-        Log.d(TAG, "onPermissionsDenied " + permission);
+        Log.d(TAG, hashCode()+ ":onShowRationale " + permission);
 
     }
 
     @Override
     public void onPermissionsDenied(String[] deniedPermissions) {
 
-        Log.d(TAG, "onPermissionsDenied " + arrayToString(deniedPermissions));
+        Log.d(TAG, hashCode()+ ":onPermissionsDenied " + arrayToString(deniedPermissions));
     }
 
     private static<T> String arrayToString(T[] arr){

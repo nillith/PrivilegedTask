@@ -14,9 +14,9 @@ public class DemoActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sample);
+        setContentView(R.layout.activity_demo);
         permissionResolver = PermissionResolver.create(this);
-        sampleSession =  permissionResolver.createSession(new SampleTask());
+        sampleSession =  permissionResolver.createSession(new DemoTask());
     }
 
     @Override
@@ -24,10 +24,10 @@ public class DemoActivity extends AppCompatActivity {
         permissionResolver.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
-    public void onSampleTask(View view) {
-        sampleSession.initiate("sample arguments");
+    public void onDemoTask(View view) {
+        sampleSession.initiate("Demo arguments");
     }
-    public void onSampleDialog(View view) {
-        new SampleDialog().show(getSupportFragmentManager(),null);
+    public void onDemoDialog(View view) {
+        new DemoDialog().show(getSupportFragmentManager(),null);
     }
 }

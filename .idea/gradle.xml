@@ -10,7 +10,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/privilegedtask" />
-            <option value="$PROJECT_DIR$/privilegedtask-sample" />
+            <option value="$PROJECT_DIR$/privilegedtask-demo" />
           </set>
         </option>
       </GradleProjectSettings>
