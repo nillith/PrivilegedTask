@@ -5,11 +5,11 @@ Requesting Runtime Permissions is bound with Activity, Fragment or DialogmentFra
 ```java
 class DemoTask extends PrivilegedTask<Param> {
     public String[] getRequiredPermissions(){
-      //This method is required
+      //Required
     }
     
     public void onPermissionsAllowed(Param...params){
-      //This method is required
+      //Required
     }
     
     public void onShowRationale(String permission) {
