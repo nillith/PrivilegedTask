@@ -11,9 +11,9 @@ import com.nillith.android.permissions.PrivilegedTask;
  */
 
 
-public class SampleTask extends PrivilegedTask {
+public class SampleTask extends PrivilegedTask<String> {
     private static final String TAG = "SampleTask";
-    private static final String[] REQUIRED_PERMISSIONS = {Manifest.permission.READ_CALENDAR,
+    private static final String[] REQUIRED_PERMISSIONS = {Manifest.permission.READ_EXTERNAL_STORAGE,
                     Manifest.permission.WRITE_EXTERNAL_STORAGE, };
 
     @Override
@@ -21,11 +21,13 @@ public class SampleTask extends PrivilegedTask {
         return REQUIRED_PERMISSIONS;
     }
 
+
+
     @Override
-    @RequiresPermission(allOf = {Manifest.permission.READ_CALENDAR,
+    @RequiresPermission(allOf = {Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE, })
-    public void onPermissionsAllowed() {
-        Log.d(TAG, "onPermissionsAllowed ");
+    public void onPermissionsAllowed(String...params) {
+        Log.d(TAG, "onPermissionsAllowed " + arrayToString(params));
     }
 
     @Override
@@ -36,10 +38,15 @@ public class SampleTask extends PrivilegedTask {
 
     @Override
     public void onPermissionsDenied(String[] deniedPermissions) {
+
+        Log.d(TAG, "onPermissionsDenied " + arrayToString(deniedPermissions));
+    }
+
+    private static<T> String arrayToString(T[] arr){
         StringBuilder sb = new StringBuilder();
-        for (String permission : deniedPermissions){
-            sb.append(permission);
+        for (T t : arr){
+            sb.append(t.toString());
         }
-        Log.d(TAG, "onPermissionsDenied " + sb.toString());
+        return sb.toString();
     }
 }

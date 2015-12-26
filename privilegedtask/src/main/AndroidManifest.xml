@@ -3,7 +3,6 @@
 
     <application
         android:allowBackup="true"
-        android:label="PrivilegedTask"
         android:supportsRtl="true">
 
     </application>

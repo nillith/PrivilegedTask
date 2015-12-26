@@ -1,8 +1,12 @@
 package com.nillith.android.permissions;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,10 +16,11 @@ import java.util.List;
  */
 public abstract class PermissionResolver implements IPermissionResolver {
 
-    class PermissionSession implements IPermissionSession {
-        IPrivilegedTask task;
+    class PermissionSession<TParam> implements IPermissionSession<TParam> {
+        IPrivilegedTask<TParam> task;
         List<String> pendingPermissions = new ArrayList<>();
         List<String> deniedPermissions = new ArrayList<>();
+        TParam[] params;
         int requestCode;
 
         public PermissionSession(IPrivilegedTask task, int requestCode) {
@@ -24,7 +29,8 @@ public abstract class PermissionResolver implements IPermissionResolver {
         }
 
         @Override
-        public void initiate() {
+        public void initiate(TParam...params) {
+            this.params = params;
             for (String permission : task.getRequiredPermissions()) {
                 if (!hasPermission(permission)) {
                     pendingPermissions.add(permission);
@@ -47,6 +53,7 @@ public abstract class PermissionResolver implements IPermissionResolver {
         private void onSessionComplete(){
             pendingPermissions.clear();
             deniedPermissions.clear();
+            params = null;
         }
 
         private void onShowRationale(String permission) {
@@ -54,7 +61,7 @@ public abstract class PermissionResolver implements IPermissionResolver {
         }
 
         private void onPermissionsAllowed() {
-            task.onPermissionsAllowed();
+            task.onPermissionsAllowed(params);
             onSessionComplete();
         }
 
@@ -93,7 +100,7 @@ public abstract class PermissionResolver implements IPermissionResolver {
     }
 
     @Override
-    public IPermissionSession createSession(IPrivilegedTask privilegedTask) {
+    public<TParam> IPermissionSession<TParam> createSession(IPrivilegedTask<TParam> privilegedTask) {
         PermissionSession result = new PermissionSession(privilegedTask, sessions.size());
         sessions.add(result);
         return result;
@@ -103,7 +110,7 @@ public abstract class PermissionResolver implements IPermissionResolver {
         return new PermissionResolver() {
             @Override
             protected boolean hasPermission(String permission) {
-                return PackageManager.PERMISSION_GRANTED == ActivityCompat.checkSelfPermission(activity,permission);
+                return PackageManager.PERMISSION_GRANTED == ContextCompat.checkSelfPermission(activity, permission);
             }
 
             @Override
@@ -117,5 +124,4 @@ public abstract class PermissionResolver implements IPermissionResolver {
             }
         };
     }
-
 }

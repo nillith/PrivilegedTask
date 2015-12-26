@@ -10,13 +10,13 @@ import com.nillith.android.permissions.PermissionResolver;
 
 public class SampleActivity extends AppCompatActivity {
     IPermissionResolver permissionResolver;
-    IPermissionSession sampleSession;
+    IPermissionSession<String> sampleSession;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sample);
         permissionResolver = PermissionResolver.create(this);
-        sampleSession = permissionResolver.createSession(new SampleTask());
+        sampleSession =  permissionResolver.createSession(new SampleTask());
     }
 
     @Override
@@ -25,6 +25,6 @@ public class SampleActivity extends AppCompatActivity {
     }
 
     public void onClick(View view) {
-        sampleSession.initiate();
+        sampleSession.initiate("sample arguments");
     }
 }
