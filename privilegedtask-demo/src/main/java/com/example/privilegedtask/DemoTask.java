@@ -11,8 +11,8 @@ import com.nillith.android.permissions.PrivilegedTask;
  */
 
 
-public class SampleTask extends PrivilegedTask<String> {
-    private static final String TAG = "SampleTask";
+public class DemoTask extends PrivilegedTask<String> {
+    private static final String TAG = "DemoTask";
     private static final String[] REQUIRED_PERMISSIONS = {Manifest.permission.READ_EXTERNAL_STORAGE,
                     Manifest.permission.WRITE_EXTERNAL_STORAGE, };
 
