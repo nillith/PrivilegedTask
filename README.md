@@ -42,7 +42,7 @@ class DemoTask extends PrivilegedTask<Param> {
 
 ###4 Do the task
 ```java
-  demoSession.initiate(Param...params);
+  demoSession.initiate(Param...params);// This will request permissions at runtime and call the callback of PrivilegedTask accordingly.
 ```
   
   
