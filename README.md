@@ -1,5 +1,5 @@
 # PrivilegedTask
-Requesting Runtime Permissions is bound with Activity, Fragment or DialogmentFragment. This Library Helps decouple your task from those context in just a few steps.
+Requesting Runtime Permissions is bound with Activity, Fragment or DialogFragment. This Library Helps decouple your task from those context in just a few steps.
 
 ###1 implement a standalone task
 ```java

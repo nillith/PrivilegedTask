@@ -10,6 +10,7 @@ import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.util.SparseArray;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -89,7 +90,8 @@ public abstract class PermissionResolver implements IPermissionResolver {
         }
     }
 
-    List<PermissionSession> sessions = new ArrayList<>();
+
+    SparseArray<PermissionSession> sessions = new SparseArray<>();
 
     private boolean hasPermission(String permission) {
         return PackageManager.PERMISSION_GRANTED == ContextCompat.checkSelfPermission(getContext(), permission);
@@ -103,15 +105,18 @@ public abstract class PermissionResolver implements IPermissionResolver {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        if (requestCode > -1 && requestCode < sessions.size()) {
-            sessions.get(requestCode).onRequestPermissionsResult(permissions, grantResults);
+
+        PermissionSession requestSession = sessions.get(requestCode);
+        if (null != requestSession){
+            requestSession.onRequestPermissionsResult(permissions, grantResults);
         }
     }
 
     @Override
     public <TParam> IPermissionSession<TParam> createSession(IPrivilegedTask<TParam> privilegedTask) {
-        PermissionSession result = new PermissionSession(privilegedTask, sessions.size());
-        sessions.add(result);
+        int requestCode = PermissionRequestCodeGenerator.next();
+        PermissionSession result = new PermissionSession(privilegedTask, requestCode);
+        sessions.append(requestCode,result);
         return result;
     }
 

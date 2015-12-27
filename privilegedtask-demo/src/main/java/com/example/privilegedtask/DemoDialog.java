@@ -41,5 +41,6 @@ public class DemoDialog extends DialogFragment {
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         permissionResolver.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        super.onRequestPermissionsResult(requestCode,permissions,grantResults);
     }
 }

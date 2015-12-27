@@ -22,6 +22,7 @@ public class DemoActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         permissionResolver.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        super.onRequestPermissionsResult(requestCode,permissions,grantResults);
     }
 
     public void onDemoTask(View view) {
