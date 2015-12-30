@@ -1,4 +1,29 @@
 apply plugin: 'com.android.library'
+ext {
+    bintrayRepo = 'maven'
+    bintrayName = 'privilegedtask'
+
+    publishedGroupId = 'com.nillith'
+    libraryName = 'PrivilegedTask'
+    artifact = 'privilegedtask'
+
+    libraryDescription = 'An android runtime permissions utility simplifies the requesting and decoupling tasks from Activity and Fragment'
+
+    siteUrl = 'https://github.com/nillith/PrivilegedTask'
+    gitUrl = 'https://github.com/nillith/PrivilegedTask.git'
+
+    libraryVersion = '0.1.0'
+
+    developerId = 'nillith'
+    developerName = 'nillith'
+    developerEmail = 'nillith@outlook.com'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+}
+
+
 
 android {
     compileSdkVersion 23
@@ -23,3 +48,6 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.1.1'
 }
+
+apply from: 'https://raw.githubusercontent.com/nillith/PrivilegedTask/master/install.gradle'
+apply from: 'https://raw.githubusercontent.com/nillith/PrivilegedTask/master/bintray.gradle'

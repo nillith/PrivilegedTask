@@ -20,6 +20,12 @@ public class DemoDialog extends DialogFragment {
     IPermissionSession<String> sampleSession;
     Button btn;
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+//        setStyle(DemoDialog.STYLE_NORMAL, android.R.style.);
+    }
+
     View.OnClickListener onBtnClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -32,7 +38,9 @@ public class DemoDialog extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         permissionResolver = PermissionResolver.create(this);
         sampleSession = permissionResolver.createSession(new DemoTask());
-        View result = inflater.inflate(R.layout.dialog_demo, container, false);
+
+        View result = inflater.inflate(R.layout.dialog_demo, container, true);
+
         btn = (Button) result.findViewById(R.id.btn);
         btn.setOnClickListener(onBtnClick);
         return result;
