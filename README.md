@@ -1,6 +1,14 @@
 # PrivilegedTask
 Requesting Runtime Permissions is bound with Activity, Fragment or DialogFragment. This Library Helps decouple your task from those context in just a few steps.
 
+### Add Gradle Dependencies
+
+```groovy
+dependencies {
+    compile 'com.nillith:privilegedtask:0.1.0'
+}
+```
+
 ###1 implement a standalone task
 ```java
 class DemoTask extends PrivilegedTask<Param> {
