@@ -9,7 +9,7 @@ dependencies {
 }
 ```
 ### How to use
-###1 implement a standalone task
+###1 Implement a standalone task
 ```java
 class DemoTask extends PrivilegedTask<Param> {
     public String[] getRequiredPermissions(){
@@ -53,11 +53,14 @@ permissionResolver.execute(new DemoTask(), ...taskParams);
 ###3.2 For tasks which might be run multiple times
 
 ```java
-  IPermissionSession<Param> demoSession =  permissionResolver.createSession(new DemoTask());
-  demoSession.start(Param...params);
+  demoSession =  permissionResolver.createSession(new DemoTask());
+  
+  ...
+  
+  demoSession.start(Param...params);// add to where you need run the task.
 ```
 
 ### Caution
-The session object created by permissionResolver.createSession lives as long as the permissionResolver object lives. If That is not what you want, use permissionResolver.execute.
+The session object created by permissionResolver.createSession lives as long as the permissionResolver object lives. If that is not what you want, use permissionResolver.execute.
   
   
