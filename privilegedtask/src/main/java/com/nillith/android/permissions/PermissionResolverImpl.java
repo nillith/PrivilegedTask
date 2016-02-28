@@ -1,13 +1,7 @@
 package com.nillith.android.permissions;
 
-import android.annotation.TargetApi;
-import android.app.Activity;
-import android.app.DialogFragment;
-import android.app.Fragment;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.os.Build;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.SparseArray;
 
@@ -17,7 +11,11 @@ import java.util.List;
 /**
  * Created by Nil on 2015/12/26.
  */
-abstract class PermissionResolverImpl extends PermissionResolver {
+abstract class PermissionResolverImpl implements IPermissionResolver {
+    @Override
+    public <TParam> void execute(IPrivilegedTask<TParam> privilegedTask, TParam... params) {
+        createSession(privilegedTask).start(params);
+    }
 
     class PermissionSession<TParam> implements IPermissionSession<TParam> {
         IPrivilegedTask<TParam> task;
@@ -32,7 +30,7 @@ abstract class PermissionResolverImpl extends PermissionResolver {
         }
 
         @Override
-        public void initiate(TParam... params) {
+        public void start(TParam... params) {
             this.params = params;
             for (String permission : task.getRequiredPermissions()) {
                 if (!hasPermission(permission)) {

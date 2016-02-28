@@ -5,5 +5,6 @@ package com.nillith.android.permissions;
  */
 public interface IPermissionResolver {
     <TParam> IPermissionSession<TParam> createSession(IPrivilegedTask<TParam> privilegedTask);
+    <TParam> void execute(IPrivilegedTask<TParam> privilegedTask, TParam ... params);
     void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults);
 }

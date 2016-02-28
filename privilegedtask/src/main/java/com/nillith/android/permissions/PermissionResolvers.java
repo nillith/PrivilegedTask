@@ -11,9 +11,11 @@ import android.support.v4.app.ActivityCompat;
 /**
  * Created by Nil on 2015/12/30.
  */
-public abstract class PermissionResolver implements IPermissionResolver {
+public class PermissionResolvers{
 
-    public static PermissionResolver create(final Activity activity) {
+    private PermissionResolvers(){}
+
+    public static IPermissionResolver create(final Activity activity) {
         return new PermissionResolverImpl() {
 
 
@@ -35,7 +37,7 @@ public abstract class PermissionResolver implements IPermissionResolver {
     }
 
     @TargetApi(Build.VERSION_CODES.M)
-    public static PermissionResolver create(final Fragment fragment) {
+    public static IPermissionResolver create(final Fragment fragment) {
         return new PermissionResolverImpl() {
 
 
@@ -56,7 +58,7 @@ public abstract class PermissionResolver implements IPermissionResolver {
         };
     }
 
-    public static PermissionResolver create(final android.support.v4.app.Fragment fragment) {
+    public static IPermissionResolver create(final android.support.v4.app.Fragment fragment) {
         return new PermissionResolverImpl() {
 
 
@@ -78,7 +80,7 @@ public abstract class PermissionResolver implements IPermissionResolver {
     }
 
     @TargetApi(Build.VERSION_CODES.M)
-    public static PermissionResolver create(final DialogFragment dialogFragment) {
+    public static IPermissionResolver create(final DialogFragment dialogFragment) {
         return new PermissionResolverImpl() {
 
 
@@ -99,7 +101,7 @@ public abstract class PermissionResolver implements IPermissionResolver {
         };
     }
 
-    public static PermissionResolver create(final android.support.v4.app.DialogFragment dialogFragment) {
+    public static IPermissionResolver create(final android.support.v4.app.DialogFragment dialogFragment) {
         return new PermissionResolverImpl() {
 
 
