@@ -10,7 +10,7 @@ import android.widget.Button;
 
 import com.nillith.android.permissions.IPermissionResolver;
 import com.nillith.android.permissions.IPermissionSession;
-import com.nillith.android.permissions.PermissionResolver;
+import com.nillith.android.permissions.PermissionResolvers;
 
 /**
  * Created by Nil on 2015/12/26.
@@ -29,14 +29,14 @@ public class DemoDialog extends DialogFragment {
     View.OnClickListener onBtnClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            sampleSession.initiate("DemoDialog arguments");
+            sampleSession.start("DemoDialog arguments");
         }
     };
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        permissionResolver = PermissionResolver.create(this);
+        permissionResolver = PermissionResolvers.create(this);
         sampleSession = permissionResolver.createSession(new DemoTask());
 
         View result = inflater.inflate(R.layout.dialog_demo, container, true);

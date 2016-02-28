@@ -6,7 +6,7 @@ import android.view.View;
 
 import com.nillith.android.permissions.IPermissionResolver;
 import com.nillith.android.permissions.IPermissionSession;
-import com.nillith.android.permissions.PermissionResolver;
+import com.nillith.android.permissions.PermissionResolvers;
 
 public class DemoActivity extends AppCompatActivity {
     IPermissionResolver permissionResolver;
@@ -15,7 +15,7 @@ public class DemoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_demo);
-        permissionResolver = PermissionResolver.create(this);
+        permissionResolver = PermissionResolvers.create(this);
         sampleSession =  permissionResolver.createSession(new DemoTask());
     }
 
@@ -26,7 +26,7 @@ public class DemoActivity extends AppCompatActivity {
     }
 
     public void onDemoTask(View view) {
-        sampleSession.initiate("Demo arguments");
+        sampleSession.start("Demo arguments");
     }
     public void onDemoDialog(View view) {
         new DemoDialog().show(getSupportFragmentManager(),null);

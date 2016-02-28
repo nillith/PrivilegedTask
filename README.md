@@ -5,10 +5,10 @@ Requesting Runtime Permissions is bound with Activity, Fragment or DialogFragmen
 
 ```groovy
 dependencies {
-    compile 'com.nillith:privilegedtask:0.1.0'
+    compile 'com.nillith:privilegedtask:0.2.1'
 }
 ```
-
+### How to use
 ###1 implement a standalone task
 ```java
 class DemoTask extends PrivilegedTask<Param> {
@@ -31,7 +31,7 @@ class DemoTask extends PrivilegedTask<Param> {
 }
 ```
 
-###2 In your Activity,Frgament or DialogFragment
+###2 In your Activity, Fragment or DialogFragment
 ```java
    IPermissionResolver permissionResolver = PermissionResolver.create(this);
    
@@ -42,15 +42,22 @@ class DemoTask extends PrivilegedTask<Param> {
    
 ```
 
-###3 Create a Session
+###3 Run the task
+
+####3.1 For oneshot tasks
+
+```java
+permissionResolver.execute(new DemoTask(), ...taskParams);
+```
+
+###3.2 For tasks which might be run multiple times
 
 ```java
   IPermissionSession<Param> demoSession =  permissionResolver.createSession(new DemoTask());
+  demoSession.start(Param...params);
 ```
 
-###4 Do the task
-```java
-  demoSession.initiate(Param...params);// This will request permissions at runtime and call the callback of PrivilegedTask accordingly.
-```
+###4 Caution
+The session object created by permissionResolver.createSession lives as long as the permissionResolver object lives. If That is not what you want, use permissionResolver.execute.
   
   
