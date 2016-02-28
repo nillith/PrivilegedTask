@@ -33,7 +33,7 @@ class DemoTask extends PrivilegedTask<Param> {
 
 ###2 In your Activity, Fragment or DialogFragment
 ```java
-   IPermissionResolver permissionResolver = PermissionResolver.create(this);
+    IPermissionResolver permissionResolver = PermissionResolver.create(this);
    
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
