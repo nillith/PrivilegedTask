@@ -14,7 +14,9 @@ import java.util.List;
 abstract class PermissionResolverImpl implements IPermissionResolver {
     @Override
     public <TParam> void execute(IPrivilegedTask<TParam> privilegedTask, TParam... params) {
-        createSession(privilegedTask).start(params);
+        PermissionSession<TParam> session = (PermissionSession<TParam>) createSession(privilegedTask);
+        session.start(params);
+        session.disjoint();
     }
 
     class PermissionSession<TParam> implements IPermissionSession<TParam> {
@@ -27,6 +29,14 @@ abstract class PermissionResolverImpl implements IPermissionResolver {
         public PermissionSession(IPrivilegedTask task, int requestCode) {
             this.task = task;
             this.requestCode = requestCode;
+        }
+
+        public void join(){
+            sessions.append(requestCode, this);
+        }
+
+        public void disjoint(){
+            sessions.remove(requestCode);
         }
 
         @Override
@@ -104,7 +114,7 @@ abstract class PermissionResolverImpl implements IPermissionResolver {
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
 
         PermissionSession requestSession = sessions.get(requestCode);
-        if (null != requestSession){
+        if (null != requestSession) {
             requestSession.onRequestPermissionsResult(permissions, grantResults);
         }
     }
@@ -112,8 +122,8 @@ abstract class PermissionResolverImpl implements IPermissionResolver {
     @Override
     public <TParam> IPermissionSession<TParam> createSession(IPrivilegedTask<TParam> privilegedTask) {
         int requestCode = RequestCodeGenerator.next();
-        PermissionSession result = new PermissionSession(privilegedTask, requestCode);
-        sessions.append(requestCode,result);
+        PermissionSession<TParam> result = new PermissionSession<>(privilegedTask, requestCode);
+        result.join();
         return result;
     }
 
