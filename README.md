@@ -57,7 +57,7 @@ permissionResolver.execute(new DemoTask(), ...taskParams);
   demoSession.start(Param...params);
 ```
 
-###4 Caution
+### Caution
 The session object created by permissionResolver.createSession lives as long as the permissionResolver object lives. If That is not what you want, use permissionResolver.execute.
   
   
