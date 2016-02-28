@@ -53,11 +53,10 @@ permissionResolver.execute(new DemoTask(), ...taskParams);
 ###3.2 For tasks which might be run multiple times
 
 ```java
-  demoSession =  permissionResolver.createSession(new DemoTask());
+demoSession =  permissionResolver.createSession(new DemoTask());
   
-  ...
-  
-  demoSession.start(Param...params);// add to where you need run the task.
+...
+demoSession.start(Param...params);// add to where you need run the task.
 ```
 
 ### Caution
