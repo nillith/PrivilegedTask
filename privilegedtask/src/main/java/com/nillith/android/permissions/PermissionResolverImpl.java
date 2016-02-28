@@ -121,7 +121,7 @@ abstract class PermissionResolverImpl implements IPermissionResolver {
 
     @Override
     public <TParam> IPermissionSession<TParam> createSession(IPrivilegedTask<TParam> privilegedTask) {
-        int requestCode = RequestCodeGenerator.next();
+        int requestCode = Sequencer.next();
         PermissionSession<TParam> result = new PermissionSession<>(privilegedTask, requestCode);
         result.join();
         return result;

@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/PrivilegedTaskLibrary.iml" filepath="$PROJECT_DIR$/PrivilegedTaskLibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/PrivilegedTask.iml" filepath="$PROJECT_DIR$/PrivilegedTask.iml" />
       <module fileurl="file://$PROJECT_DIR$/privilegedtask/privilegedtask.iml" filepath="$PROJECT_DIR$/privilegedtask/privilegedtask.iml" />
       <module fileurl="file://$PROJECT_DIR$/privilegedtask-demo/privilegedtask-demo.iml" filepath="$PROJECT_DIR$/privilegedtask-demo/privilegedtask-demo.iml" />
     </modules>
