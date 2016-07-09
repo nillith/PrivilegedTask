@@ -12,7 +12,7 @@ ext {
     siteUrl = 'https://github.com/nillith/PrivilegedTask'
     gitUrl = 'https://github.com/nillith/PrivilegedTask.git'
 
-    libraryVersion = '0.2.2'
+    libraryVersion = '0.3.1'
 
     developerId = 'nillith'
     developerName = 'nillith'
@@ -27,7 +27,7 @@ ext {
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    buildToolsVersion "23.0.3"
 
     defaultConfig {
         minSdkVersion 7

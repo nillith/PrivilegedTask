@@ -11,13 +11,12 @@ import android.support.v4.app.ActivityCompat;
 /**
  * Created by Nil on 2015/12/30.
  */
-public class PermissionResolvers{
+class PermissionResolvers{
 
     private PermissionResolvers(){}
 
     public static IPermissionResolver create(final Activity activity) {
-        return new PermissionResolverImpl() {
-
+        return new AbstractPermissionResolver() {
 
             @Override
             protected Context getContext() {
@@ -25,12 +24,12 @@ public class PermissionResolvers{
             }
 
             @Override
-            protected boolean shouldShowRequestPermissionRationale(String permission) {
+            public boolean shouldShowRequestPermissionRationale(String permission) {
                 return ActivityCompat.shouldShowRequestPermissionRationale(activity, permission);
             }
 
             @Override
-            protected void requestPermissions(String[] permissions, int requestCode) {
+            public void requestPermissions(String[] permissions, int requestCode) {
                 ActivityCompat.requestPermissions(activity, permissions, requestCode);
             }
         };
@@ -38,7 +37,7 @@ public class PermissionResolvers{
 
     @TargetApi(Build.VERSION_CODES.M)
     public static IPermissionResolver create(final Fragment fragment) {
-        return new PermissionResolverImpl() {
+        return new AbstractPermissionResolver() {
 
 
             @Override
@@ -47,19 +46,19 @@ public class PermissionResolvers{
             }
 
             @Override
-            protected boolean shouldShowRequestPermissionRationale(String permission) {
+            public boolean shouldShowRequestPermissionRationale(String permission) {
                 return fragment.shouldShowRequestPermissionRationale(permission);
             }
 
             @Override
-            protected void requestPermissions(String[] permissions, int requestCode) {
+            public void requestPermissions(String[] permissions, int requestCode) {
                 fragment.requestPermissions(permissions, requestCode);
             }
         };
     }
 
     public static IPermissionResolver create(final android.support.v4.app.Fragment fragment) {
-        return new PermissionResolverImpl() {
+        return new AbstractPermissionResolver() {
 
 
             @Override
@@ -68,12 +67,12 @@ public class PermissionResolvers{
             }
 
             @Override
-            protected boolean shouldShowRequestPermissionRationale(String permission) {
+            public boolean shouldShowRequestPermissionRationale(String permission) {
                 return fragment.shouldShowRequestPermissionRationale(permission);
             }
 
             @Override
-            protected void requestPermissions(String[] permissions, int requestCode) {
+            public void requestPermissions(String[] permissions, int requestCode) {
                 fragment.requestPermissions(permissions, requestCode);
             }
         };
@@ -81,7 +80,7 @@ public class PermissionResolvers{
 
     @TargetApi(Build.VERSION_CODES.M)
     public static IPermissionResolver create(final DialogFragment dialogFragment) {
-        return new PermissionResolverImpl() {
+        return new AbstractPermissionResolver() {
 
 
             @Override
@@ -90,19 +89,19 @@ public class PermissionResolvers{
             }
 
             @Override
-            protected boolean shouldShowRequestPermissionRationale(String permission) {
+            public boolean shouldShowRequestPermissionRationale(String permission) {
                 return dialogFragment.shouldShowRequestPermissionRationale(permission);
             }
 
             @Override
-            protected void requestPermissions(String[] permissions, int requestCode) {
+            public void requestPermissions(String[] permissions, int requestCode) {
                 dialogFragment.requestPermissions(permissions, requestCode);
             }
         };
     }
 
     public static IPermissionResolver create(final android.support.v4.app.DialogFragment dialogFragment) {
-        return new PermissionResolverImpl() {
+        return new AbstractPermissionResolver() {
 
 
             @Override
@@ -111,12 +110,12 @@ public class PermissionResolvers{
             }
 
             @Override
-            protected boolean shouldShowRequestPermissionRationale(String permission) {
+            public boolean shouldShowRequestPermissionRationale(String permission) {
                 return dialogFragment.shouldShowRequestPermissionRationale(permission);
             }
 
             @Override
-            protected void requestPermissions(String[] permissions, int requestCode) {
+            public void requestPermissions(String[] permissions, int requestCode) {
                 dialogFragment.requestPermissions(permissions, requestCode);
             }
         };

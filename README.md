@@ -5,7 +5,7 @@ Helper classes for Requesting Android Runtime Permissions.
 
 ```groovy
 dependencies {
-    compile 'com.nillith:privilegedtask:0.2.2'
+    compile 'com.nillith:privilegedtask:0.3.1'
 }
 ```
 ### How to use
@@ -33,33 +33,20 @@ class DemoTask extends PrivilegedTask<Param> {
 
 ###2 In your Activity, Fragment or DialogFragment
 ```java
-    IPermissionResolver permissionResolver = PermissionResolver.create(this);
+    DemoTask task = new DemoTask();
    
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        permissionResolver.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        task.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
    
 ```
 
 ###3 Run the task
 
-####3.1 For oneshot tasks
-
 ```java
-permissionResolver.execute(new DemoTask(), ...taskParams);
-```
+task.start(THost host, TParam...params); // The host is the Activity, Fragment or DialogFragment from which the task is to run.
 
-###3.2 For tasks which might be run multiple times
-
-```java
-demoSession =  permissionResolver.createSession(new DemoTask());
-  
 ...
-demoSession.start(Param...params);// add to where you need run the task.
-```
-
-### Caution
-The session object created by permissionResolver.createSession lives as long as the permissionResolver object lives. If that is not what you want, use permissionResolver.execute.
   
   

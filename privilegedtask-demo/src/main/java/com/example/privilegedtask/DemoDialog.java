@@ -8,16 +8,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.nillith.android.permissions.IPermissionResolver;
-import com.nillith.android.permissions.IPermissionSession;
-import com.nillith.android.permissions.PermissionResolvers;
-
 /**
  * Created by Nil on 2015/12/26.
  */
 public class DemoDialog extends DialogFragment {
-    IPermissionResolver permissionResolver;
-    IPermissionSession<String> sampleSession;
+    DemoTask task = new DemoTask();
     Button btn;
 
     @Override
@@ -29,15 +24,13 @@ public class DemoDialog extends DialogFragment {
     View.OnClickListener onBtnClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            sampleSession.start("DemoDialog arguments");
+            task.start(DemoDialog.this,"DemoDialog arguments");
         }
     };
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        permissionResolver = PermissionResolvers.create(this);
-        sampleSession = permissionResolver.createSession(new DemoTask());
 
         View result = inflater.inflate(R.layout.dialog_demo, container, true);
 
@@ -48,7 +41,7 @@ public class DemoDialog extends DialogFragment {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        permissionResolver.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        task.onRequestPermissionsResult(requestCode, permissions, grantResults);
         super.onRequestPermissionsResult(requestCode,permissions,grantResults);
     }
 }
