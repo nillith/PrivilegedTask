@@ -1,24 +1,18 @@
 package com.example.privilegedtask;
 
+//import android.Manifest;
 import android.Manifest;
 import android.support.annotation.RequiresPermission;
 import android.util.Log;
 
 import com.nillith.android.permissions.PrivilegedTask;
 
-/**
- * Created by Nil on 2015/12/26.
- */
-
-
 public class DemoTask extends PrivilegedTask<String> {
     private static final String TAG = "DemoTask";
-    private static final String[] REQUIRED_PERMISSIONS = {Manifest.permission.READ_EXTERNAL_STORAGE,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE, };
 
     @Override
     public String[] getRequiredPermissions() {
-        return REQUIRED_PERMISSIONS;
+        return EXTERNAL_STORAGE;
     }
 
 

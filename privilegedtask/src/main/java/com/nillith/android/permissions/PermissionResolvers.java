@@ -8,14 +8,11 @@ import android.content.Context;
 import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 
-/**
- * Created by Nil on 2015/12/30.
- */
 class PermissionResolvers{
 
     private PermissionResolvers(){}
 
-    public static IPermissionResolver create(final Activity activity) {
+    public static PermissionResolver create(final Activity activity) {
         return new AbstractPermissionResolver() {
 
             @Override
@@ -36,7 +33,7 @@ class PermissionResolvers{
     }
 
     @TargetApi(Build.VERSION_CODES.M)
-    public static IPermissionResolver create(final Fragment fragment) {
+    public static PermissionResolver create(final Fragment fragment) {
         return new AbstractPermissionResolver() {
 
 
@@ -57,9 +54,8 @@ class PermissionResolvers{
         };
     }
 
-    public static IPermissionResolver create(final android.support.v4.app.Fragment fragment) {
+    public static PermissionResolver create(final android.support.v4.app.Fragment fragment) {
         return new AbstractPermissionResolver() {
-
 
             @Override
             protected Context getContext() {
@@ -79,7 +75,7 @@ class PermissionResolvers{
     }
 
     @TargetApi(Build.VERSION_CODES.M)
-    public static IPermissionResolver create(final DialogFragment dialogFragment) {
+    public static PermissionResolver create(final DialogFragment dialogFragment) {
         return new AbstractPermissionResolver() {
 
 
@@ -100,7 +96,7 @@ class PermissionResolvers{
         };
     }
 
-    public static IPermissionResolver create(final android.support.v4.app.DialogFragment dialogFragment) {
+    public static PermissionResolver create(final android.support.v4.app.DialogFragment dialogFragment) {
         return new AbstractPermissionResolver() {
 
 
