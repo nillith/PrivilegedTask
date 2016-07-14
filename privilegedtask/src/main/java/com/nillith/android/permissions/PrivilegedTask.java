@@ -134,7 +134,6 @@ public abstract class PrivilegedTask<TParam> {
             requestCode = Sequencer.next();
             resolver.requestPermissions(toStringArray(pendingPermissions), requestCode);
         }
-
     }
 
     private String[] toStringArray(List<String> list) {

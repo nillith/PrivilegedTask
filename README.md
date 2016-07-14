@@ -5,7 +5,7 @@ Helper classes for Requesting Android Runtime Permissions.
 
 ```groovy
 dependencies {
-    compile 'com.nillith:privilegedtask:0.3.1'
+    compile 'com.nillith:privilegedtask:0.3.2'
 }
 ```
 ### How to use
