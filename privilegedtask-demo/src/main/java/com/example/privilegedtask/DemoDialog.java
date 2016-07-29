@@ -1,6 +1,7 @@
 package com.example.privilegedtask;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
@@ -8,9 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-/**
- * Created by Nil on 2015/12/26.
- */
+import com.nillith.android.permissions.PrivilegedTask;
+
+
 public class DemoDialog extends DialogFragment {
     DemoTask task = new DemoTask();
     Button btn;
@@ -18,13 +19,12 @@ public class DemoDialog extends DialogFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setStyle(DemoDialog.STYLE_NORMAL, android.R.style.);
     }
 
     View.OnClickListener onBtnClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            task.start(DemoDialog.this,"DemoDialog arguments");
+            task.initiate(DemoDialog.this, "DemoDialog arguments");
         }
     };
 
@@ -40,8 +40,8 @@ public class DemoDialog extends DialogFragment {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        task.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        super.onRequestPermissionsResult(requestCode,permissions,grantResults);
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        PrivilegedTask.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 }

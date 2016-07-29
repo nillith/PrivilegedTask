@@ -5,11 +5,21 @@ Helper classes for Requesting Android Runtime Permissions.
 
 ```groovy
 dependencies {
-    compile 'com.nillith:privilegedtask:0.3.2'
+    compile 'com.nillith:privilegedtask:0.4.0'
 }
 ```
 ### How to use
-###1 Implement a standalone task
+
+###1 In your Activity, Fragment or DialogFragment
+```java
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        PrivilegedTask.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+```
+
+###2 Implement a standalone task
 ```java
 class DemoTask extends PrivilegedTask<Param> {
     public String[] getRequiredPermissions(){
@@ -30,23 +40,19 @@ class DemoTask extends PrivilegedTask<Param> {
     }
 }
 ```
-
-###2 In your Activity, Fragment or DialogFragment
-```java
-    DemoTask task = new DemoTask();
-   
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        task.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    }
-   
-```
-
 ###3 Run the task
 
 ```java
-task.start(THost host, TParam...params); // The host is the Activity, Fragment or DialogFragment from which the task is to run.
+DemoTask task = new DemoTask();
+task.initiate(THost host, TParam...params); // The host is the Activity, Fragment or DialogFragment from which the task is to run.
 
 ...
+
+### Quick way
+
+```java
+PrivilegedTask.initiate(THost host, String[] requiredPermissions, Runnable onGranted, Runnable onDenied);
+...
+
   
   

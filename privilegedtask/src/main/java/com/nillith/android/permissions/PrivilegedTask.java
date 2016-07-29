@@ -4,37 +4,42 @@ import android.app.Activity;
 import android.app.DialogFragment;
 import android.app.Fragment;
 import android.content.pm.PackageManager;
+import android.support.annotation.NonNull;
+import android.util.SparseArray;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.ConcurrentModificationException;
 import java.util.List;
 
 public abstract class PrivilegedTask<TParam> {
-    protected static final String[] CALENDAR = {
+
+    private static final SparseArray<PrivilegedTask> TASKS = new SparseArray<>();
+
+    public static final String[] CALENDAR = {
             "android.permission.READ_CALENDAR",
             "android.permission.WRITE_CALENDAR",
     };
 
-    protected static final String[] CAMERA = {
+    public static final String[] CAMERA = {
             "android.permission.CAMERA",
     };
 
-    protected static final String[] CONTACTS = {
+    public static final String[] CONTACTS = {
             "android.permission.READ_CONTACTS",
             "android.permission.WRITE_CONTACTS",
             "android.permission.GET_ACCOUNTS",
     };
 
-    protected static final String[] LOCATION = {
+    public static final String[] LOCATION = {
             "android.permission.ACCESS_FINE_LOCATION",
             "android.permission.ACCESS_COARSE_LOCATION",
     };
 
-    protected static final String[] MICROPHONE = {
+    public static final String[] MICROPHONE = {
             "android.permission.RECORD_AUDIO",
     };
 
-    protected static final String[] PHONE = {
+    public static final String[] PHONE = {
             "android.permission.READ_PHONE_STATE",
             "android.permission.CALL_PHONE",
             "android.permission.READ_CALL_LOG",
@@ -44,11 +49,11 @@ public abstract class PrivilegedTask<TParam> {
             "android.permission.PROCESS_OUTGOING_CALLS",
     };
 
-    protected static final String[] SENSORS = {
+    public static final String[] SENSORS = {
             "android.permission.BODY_SENSORS",
     };
 
-    protected static final String[] SMS = {
+    public static final String[] SMS = {
             "android.permission.SEND_SMS",
             "android.permission.RECEIVE_SMS",
             "android.permission.READ_SMS",
@@ -56,7 +61,7 @@ public abstract class PrivilegedTask<TParam> {
             "android.permission.RECEIVE_MMS",
     };
 
-    protected static final String[] EXTERNAL_STORAGE = {
+    public static final String[] EXTERNAL_STORAGE = {
             "android.permission.READ_EXTERNAL_STORAGE",
             "android.permission.WRITE_EXTERNAL_STORAGE",
     };
@@ -73,45 +78,94 @@ public abstract class PrivilegedTask<TParam> {
 
     }
 
+    @SuppressWarnings("unchecked")
+    private void execute() {
+        onPermissionsAllowed(params);
+    }
+
     protected void onShowRationale(String permission) {
 
     }
 
-    protected void onBeforeStart() {
+    protected void onBeforeInitiation() {
 
     }
 
-    @SafeVarargs
-    final public void start(final Activity host, TParam... params) {
-        start(PermissionResolvers.create(host), params);
+    public static void initiate(final Activity host, final String[] requiredPermissions, final Runnable onGranted, final Runnable onDenied) {
+        initiate(PermissionResolvers.create(host), requiredPermissions, onGranted, onDenied);
+    }
+
+    public static void initiate(final Fragment host, final String[] requiredPermissions, final Runnable onGranted, final Runnable onDenied) {
+        initiate(PermissionResolvers.create(host), requiredPermissions, onGranted, onDenied);
+    }
+
+    public static void initiate(final android.support.v4.app.Fragment host, final String[] requiredPermissions, final Runnable onGranted, final Runnable onDenied) {
+        initiate(PermissionResolvers.create(host), requiredPermissions, onGranted, onDenied);
+    }
+
+    public static void initiate(final DialogFragment host, String[] requiredPermissions, final Runnable onGranted, final Runnable onDenied) {
+        initiate(PermissionResolvers.create(host), requiredPermissions, onGranted, onDenied);
+    }
+
+    public static void initiate(final android.support.v4.app.DialogFragment host, final String[] requiredPermissions, final Runnable onGranted, final Runnable onDenied) {
+        initiate(PermissionResolvers.create(host), requiredPermissions, onGranted, onDenied);
+    }
+
+    private static void initiate(PermissionResolver resolver, final String[] requiredPermissions,
+                                 final Runnable onGranted, final Runnable onDenied) {
+        PrivilegedTask<Void> task = new PrivilegedTask<Void>() {
+
+            @Override
+            protected String[] getRequiredPermissions() {
+                return requiredPermissions;
+            }
+
+            @Override
+            protected void onPermissionsAllowed(Void... voids) {
+                onGranted.run();
+            }
+
+            @Override
+            protected void onPermissionsDenied(String[] deniedPermissions) {
+                if(null != onDenied){
+                    onDenied.run();
+                }
+            }
+        };
+        task.initiate(resolver);
     }
 
     @SafeVarargs
-    final public void start(final Fragment host, TParam... params) {
-        start(PermissionResolvers.create(host), params);
+    final public void initiate(final Activity host, TParam... params) {
+        initiate(PermissionResolvers.create(host), params);
     }
 
     @SafeVarargs
-    final public void start(final android.support.v4.app.Fragment host, TParam... params) {
-        start(PermissionResolvers.create(host), params);
+    final public void initiate(final Fragment host, TParam... params) {
+        initiate(PermissionResolvers.create(host), params);
     }
 
     @SafeVarargs
-    final public void start(final DialogFragment host, TParam... params) {
-        start(PermissionResolvers.create(host), params);
+    final public void initiate(final android.support.v4.app.Fragment host, TParam... params) {
+        initiate(PermissionResolvers.create(host), params);
     }
 
     @SafeVarargs
-    final public void start(final android.support.v4.app.DialogFragment host, TParam... params) {
-        start(PermissionResolvers.create(host), params);
+    final public void initiate(final DialogFragment host, TParam... params) {
+        initiate(PermissionResolvers.create(host), params);
+    }
+
+    @SafeVarargs
+    final public void initiate(final android.support.v4.app.DialogFragment host, TParam... params) {
+        initiate(PermissionResolvers.create(host), params);
     }
 
     @SuppressWarnings("unchecked")
-    private void start(PermissionResolver resolver, TParam... params) {
-        if(null != this.params){
+    private void initiate(PermissionResolver resolver, TParam... params) {
+        if (null != this.params) {
             throw new IllegalStateException();
         }
-        onBeforeStart();
+        onBeforeInitiation();
         this.params = params;
         List<String> pendingPermissions = new ArrayList<>();
         for (String permission : getRequiredPermissions()) {
@@ -121,7 +175,7 @@ public abstract class PrivilegedTask<TParam> {
         }
         if (pendingPermissions.isEmpty()) {
             try {
-                onPermissionsAllowed(params);
+                execute();
             } finally {
                 clear();
             }
@@ -132,21 +186,24 @@ public abstract class PrivilegedTask<TParam> {
                 }
             }
             requestCode = Sequencer.next();
+            TASKS.put(requestCode, this);
             resolver.requestPermissions(toStringArray(pendingPermissions), requestCode);
         }
     }
 
-    private String[] toStringArray(List<String> list) {
+    private static String[] toStringArray(List<String> list) {
         return list.toArray(new String[list.size()]);
     }
 
     private void clear() {
-        this.params = null;
+        params = null;
+        TASKS.put(requestCode, null);
     }
 
     @SuppressWarnings("unchecked")
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        if (this.requestCode == requestCode) {
+    public static void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        PrivilegedTask privilegedTask = TASKS.get(requestCode);
+        if (null != privilegedTask) {
             try {
                 List<String> deniedPermissions = new ArrayList<>();
                 for (int i = 0; i < grantResults.length; i++) {
@@ -155,12 +212,12 @@ public abstract class PrivilegedTask<TParam> {
                     }
                 }
                 if (deniedPermissions.isEmpty()) {
-                    onPermissionsAllowed(params);
+                    privilegedTask.execute();
                 } else {
-                    onPermissionsDenied(toStringArray(deniedPermissions));
+                    privilegedTask.onPermissionsDenied(toStringArray(deniedPermissions));
                 }
             } finally {
-                clear();
+                privilegedTask.clear();
             }
         }
     }
