@@ -13,8 +13,9 @@ dependencies {
 ###1 In your Activity, Fragment or DialogFragment
 ```java
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         PrivilegedTask.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        ...
     }
 
 ```
@@ -44,15 +45,17 @@ class DemoTask extends PrivilegedTask<Param> {
 
 ```java
 DemoTask task = new DemoTask();
-task.initiate(THost host, TParam...params); // The host is the Activity, Fragment or DialogFragment from which the task is to run.
+task.initiate(THost host, TParam...params);
+// The host is the Activity, Fragment or DialogFragment from which the task is to run.
 
-...
+```
+
 
 ### Quick way
 
 ```java
 PrivilegedTask.initiate(THost host, String[] requiredPermissions, Runnable onGranted, Runnable onDenied);
-...
+```
 
   
   
